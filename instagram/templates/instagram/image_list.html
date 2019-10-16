@@ -1,0 +1,84 @@
+{% extends 'instagram/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="jumbotro">
+        <!-- Row divider for image -->
+        <div class="row mt-4">
+            <!-- Image-Section -->
+            <div class="col-md-1">
+                <!-- Empty block -->
+            </div>
+            <div class="col-md-6">
+                    {% for image in images%}
+                    <div class="col-md-6">
+                <section class="section pb-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="container-fluid">
+                                <div class="row">
+                                        <img src="{{ image.image_by.profile.pic.url }}" class="rounded-circle z-depth-0"height="35">
+                                        <div><p class="ml-2 ">{{image.image_by.username}}</p></div>
+                                      
+                                    <!-- <div class="col-md-7 username">
+                                        <blockquote class="blockquote">
+                                            <p class="mb-0 imgcred">Username</p>
+                                            <footer class="locationcred">Location</footer>
+                                        </blockquote>
+                                    </div> -->
+                                    <!-- <div class="col-md-2 popupset"> -->
+                                        <!-- Button trigger modal -->
+                                        <!-- <button type="button" class="btn btn-sm btn-white" data-toggle="modal"
+                                            data-target="#exampleModalCenter">
+                                            <img src="https://img.icons8.com/ios-glyphs/30/000000/ellipsis.png" width="20px"
+                                                height="20px">
+                                        </button> -->
+                                        <!-- End Button trigger modal -->
+                                    </div>
+                                </div>
+                            </div>
+                       
+                        <img src="{{ image.image_post.url }}" class="card-img-top"
+                            alt="...">
+                        <div class="card-body">
+                            <div class="container-full">
+                                <div class="row pb-1">
+                                    <div class="col-md-6">
+                                        <img class="pr-1" src="https://img.icons8.com/ios/50/000000/like.png" width="30px" height="30px"> 45
+                                        <img class="pl-1" src="https://img.icons8.com/ios/50/000000/topic.png" width="30px"height="30px"> 22
+                                    
+                                    </div>
+                                    <div class="col-md-6"></div>
+                                    <!-- <div class="col-md-2 highlight">
+                                        <img src="https://img.icons8.com/ios/50/000000/bookmark-ribbon.png" width="30px"
+                                            height="28px">
+                                    </div> -->
+                                </div>
+                            </div>
+                            <div class="pt-1 container-full">
+                                <p>
+                                    {{image.image_caption}}
+                                </p>
+                                <p class="mb-0 imgcredtime">{{image.date_posted|timesince}} ago </p>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <input type="text" name="addcomment" placeholder=" Comment">
+                        </div>
+                    </div>
+                </div>
+                </section>
+            </div>
+                {% endfor %}
+                {% endblock %}
+
+                <div class="card">
+                        <div class="card-body">
+                          <h5 class="card-title">Panel title</h5>
+                          <h6 class="card-subtitle mb-2 text-muted">Panel subtitle</h6>
+                          <p class="card-text">Some quick example text to build on the panel title and make up the bulk of the panel's content.</p>
+                          <a href="#!" class="card-link">Card link</a>
+                          <a href="#!" class="card-link">Another link</a>
+                        </div>
+                      </div>
+
+        
