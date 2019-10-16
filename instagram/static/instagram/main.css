@@ -1,0 +1,73 @@
+/*Position logo and name in the navbar*/
+.col.logo {
+    border-right: 1px solid;
+}
+
+/*Brand sacing*/
+.col.brand {
+    margin-right: 180px;
+}
+
+/*Searchbox styling*/
+.searchbox {
+    margin-right: 240px;
+}
+
+/*Card Top*/
+button.btn.btn-sm.btn-white {
+    background-color: white;
+}
+
+
+/*Search Box Background*/
+input.form-control.form-control-sm.mr-sm-1 {
+    background-color: #8080801c;
+}
+
+/*Navbar length*/
+nav.container.navbar.fixed-top.navbar-expand-lg.navbar-light.bg-white {
+    height: 77px;
+}
+
+/*Navbar Wrapper*/
+.container-full.header {
+    padding: 39px;
+    border-bottom: 1px solid #80808054;
+    background-color: white;
+    border-radius: 0px;
+    margin-bottom: 0px;
+}
+
+.col-md-5.loginform {
+    padding-top: 5%;
+}
+
+.account-img {
+    height: 125px;
+    width: 125px;
+    margin-right: 20px;
+    margin-bottom: 16px;
+  }
+  
+
+  /* card dtyle to fit images */
+  .card-img-top {
+    height: 100%;
+    object-fit: cover;
+}
+
+.card{
+    width: 570px;
+}
+
+small#hint_id_password1 {
+    display: none;
+}
+
+small#hint_id_username {
+    display: none;
+}
+
+.card {
+    margin-top: 15px;
+}
