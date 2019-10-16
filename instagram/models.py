@@ -35,6 +35,15 @@ class Image(models.Model):
     def __str__(self):
         return self.image_caption
 
+    def save(self, *args, **kwargs):
+        super(Image, self).save(*args, **kwargs)
+        img = PIL.Image.open(self.image_post.path)
+
+        # if img.height > 300 or img.width >300:
+        #     output_size = (300,300)
+        #     img(output_size)
+        #     img.save(self.image_post.path,format='JPEG')
+
     def total_likes(self):
         return self.likes.count()
 
