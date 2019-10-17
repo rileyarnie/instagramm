@@ -1,0 +1,127 @@
+{% extends 'instagram/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+                <div class="content-section">
+                        <div class="media">
+                            <img class="rounded-circle account-img" src="{{ user.profile.pic.url }}">
+                            <div class="media-body">
+                                <h2 class="account-heading">{{ user.username }}</h2>
+                                <p class="text-secondary">{{ user.email }}</p>
+                            </div>
+                        </div>
+               
+                </div>
+    
+        </div>
+    
+        <div class="col-md-3"></div>
+    
+    </div>
+
+
+
+  
+
+        <div class="jumbotro">
+                <!-- Row divider for image -->
+                <div class="row mt-4">
+                    <!-- Image-Section -->
+                    <div class="col-md-1">
+                        <!-- Empty block -->
+                    </div>
+                    <div class="col-md-6">
+                        <section class="section pb-2">
+                            {% for image in images%}
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <img src="{{ image.image_by.profile.pic.url }}" class="rounded-circle z-depth-0">
+                                            <p class="mb-0 imgcred">{{image.image_by.username}}</p>
+                                            <!-- <div class="col-md-7 username"> -->
+                                            <!-- Feature name in profile -->
+                                            <!-- <blockquote class="blockquote">
+                                                    <p class="mb-0 imgcred">{{image.image_by.username}}</p>
+                                                </blockquote>
+                                            </div> -->
+                                            <div class="col-md-2 popupset">
+                                                <!-- Button trigger modal -->
+                                                <!-- <button type="button" class="btn btn-sm btn-white" data-toggle="modal"
+                                                    data-target="#exampleModalCenter">
+                                                    <img src="https://img.icons8.com/ios-glyphs/30/000000/ellipsis.png" width="20px"
+                                                        height="20px">
+                                                </button> -->
+                                                <!-- End Button trigger modal -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="{% url 'post-detail' image.id%} "><img src="{{ image.image_post.url }}"
+                                        class="card-img-top" alt="..."></a>
+                                <div class="card-body">
+                                    <div class="container-full">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <!-- <form action="{% url 'like_image' %}" method="POST">
+                                                    {% csrf_token%}
+                                                        <img class="icons" type="submit" name= 'image_id' value = "{{image.id}}" src="https://img.icons8.com/ios/50/000000/like.png" width="30px"
+                                                        height="30px">{{image.total_likes}} Like{{image.total_likes|pluralize}}
+                                                </form> -->
+                                                <form action="{% url 'like_image' %}" method="POST">
+                                                        {% csrf_token%}
+                                                        {% if is_liked%}
+                                                        <button class="btn btn-primary btn-sm" type="submit" name="image_id" value="{{ image.id }}">  </button>
+                                                        {% else %}
+                                                        <button class="btn btn-primary" type="submit" name="image_id" value="{{ image.id }}">  </button>
+                                                        {% endif %}
+                                                    </form>
+            
+                                                <img class="icons" src="https://img.icons8.com/ios/50/000000/topic.png" width="30px"
+                                                    height="30px">
+                                        
+                                            </div>
+                                            <div class="col-md-4"></div>
+                                        </div>
+                                    </div>
+                                    <div class="container-full pt-2">
+                                        <p>
+                                            {{image.image_caption}}
+                                        </p>
+                                        <p class="mb-0 imgcredtime" id="{{image.pk}}">{{image.date_posted|timesince}} ago</p>
+                                    </div>
+                                </div>
+                                <div>
+            
+                                </div>
+                                <div class="card-footer ">
+                                            <form action="{% url 'home' %}" method="POST">
+                                                {% csrf_token %}
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                            {{ form|crispy }}
+                                                            <input type="hidden" value="{{image.pk}}" name="image_id">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                            <button class="btn btn-outline-black" type="submit"> Comment</button>
+                                                    </div>
+            
+                                                </div>
+                                                
+            
+                                            </form>
+            
+            
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </section>
+                    </div>
+                </div>
+            </div>
+   
+        {% endblock %}
