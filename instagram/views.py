@@ -149,8 +149,9 @@ class ImageDeleteView(LoginRequiredMixin,UserPassesTestMixin, DeleteView):
         return False 
 
 
+@login_required
 def homepage(request):
-    images = Image.objects.all()
+    images = Image.objects.all().order_by('-date_posted')
     is_liked = False
     # if images.likes.filter(id=request.user.id).exists():
     #     is_liked = False
@@ -179,6 +180,7 @@ def homepage(request):
     return render(request, 'instagram/homepage.html', context)
 
 
+@login_required
 def like_image(request):
     image = get_object_or_404(Image, id = request.POST.get('image_id'))
     is_liked = False
@@ -190,3 +192,14 @@ def like_image(request):
         is_liked =True
 
     return HttpResponseRedirect(image.get_absolute_url())
+
+
+class UserImageListView(LoginRequiredMixin, ListView):
+    model = Image
+    template_name = 'users/user_images.html'
+    context_object_name = 'images'
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.kwargs.get('username'))
+        return Image.objects.filter(image_by=user).order_by('-date_posted')
+       
