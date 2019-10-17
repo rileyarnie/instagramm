@@ -1,0 +1,172 @@
+{% extends 'instagram/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-7">
+    <div class="card">
+        <div class="card-header">
+            <div class="container-fluid">
+                <div class="row">
+                    <img src="{{ image.image_by.profile.pic.url }}" class="rounded-circle z-depth-0">
+                    <p class="mb-0 imgcred">{{image.image_by.username}}</p>
+                    <!-- <div class="col-md-7 username"> -->
+                    <!-- Feature name in profile -->
+                    <!-- <blockquote class="blockquote">
+                            <p class="mb-0 imgcred">{{image.image_by.username}}</p>
+                        </blockquote>
+                    </div> -->
+                    <div class="col-md-2 popupset">
+                        <!-- Button trigger modal -->
+                        <!-- <button type="button" class="btn btn-sm btn-white" data-toggle="modal"
+                            data-target="#exampleModalCenter">
+                            <img src="https://img.icons8.com/ios-glyphs/30/000000/ellipsis.png" width="20px"
+                                height="20px">
+                        </button> -->
+                        <!-- End Button trigger modal -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a href="{% url 'post-detail' image.id%} "><img src="{{ image.image_post.url }}"
+                class="card-img-top" alt="..."></a>
+        <div class="card-body">
+            <div class="container-full">
+                <div class="row">
+                    <div class="col-md-6">
+                        <img class="icons" src="https://img.icons8.com/ios/50/000000/like.png" width="30px"
+                            height="30px">{{image.total_likes}} Like{{image.total_likes|pluralize}}
+                        <img class="icons" src="https://img.icons8.com/ios/50/000000/topic.png" width="30px"
+                            height="30px">
+                
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+            </div>
+            <div class="container-full pt-2">
+                <p>
+                    {{image.image_caption}}
+                </p>
+                <p class="mb-0 imgcredtime" id="{{image.pk}}">{{image.date_posted|timesince}} ago</p>
+                {% if image.image_by.profile.user == user %}
+                <a href="{% url 'post-delete' image.id %}"> <img src="https://img.icons8.com/color/96/000000/delete-forever.png" height="30px" width="30px" ></a>
+         
+                {% endif %}
+            </div>
+        </div>
+        <div>
+
+        </div>
+        <div class="card-footer ">
+                    <form action="{% url 'home' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-8">
+                                    {{ form|crispy }}
+                                    <input type="hidden" value="{{image.pk}}" name="image_id">
+                            </div>
+                            <div class="col-md-4">
+                                    <button class="btn btn-outline-black" type="submit"> Comment</button>
+                            </div>
+
+                        </div>
+                        
+
+                    </form>
+
+
+        </div>
+    </div>
+</div>
+
+    <div class="col-md-4 mt-4">
+    
+    
+                <h4>Comments</h4>
+            
+                {% if image.comment_set.all %}
+                    
+                    {% for comment in image.comment_set.all%}
+                    <img src="{{ comment.author.profile.pic.url }}" class="rounded-circle z-depth-0 pt-1"
+                    height="35" alt="">
+                    <p class="comment-author"> By: {{ comment.author.profile.user }}</p>
+
+                    <p> {{comment.content}}</p>
+                    {% endfor %}
+                {% endif %}
+            
+            </div>
+       
+
+   
+        </div>
+</div>
+{% endblock %}
+
+
+
+
+    <!-- jbsfksabcabcsbibislvbl -->
+
+    <div class="row pt-4">
+            <div class="col-md-2"></div>
+            <div class="col-md-4  mb-4 d-flex align-items-stretch">
+                <div class="card border">
+    
+                    <div class="row">
+                        <div class="ml-4 md-1"></div>
+                        <div class="md-3">
+                            <ul class="navbar-nav ml-auto nav-flex-icons">
+                                <li class="nav-item avatar mr-2">
+                                    <a class="nav-link p-0" href="#">
+                                        <img src=" {{ image.image_by.profile.pic.url }}" class="rounded-circle z-depth-0 pt-1"
+                                            height="35">
+                                    </a>
+                                </li>
+    
+                            </ul>
+                        </div>
+                        <div class="pt-2 md-3">
+                            <p> {{image.image_by.username}}
+                            </p>
+                        </div>
+                        <div class="md-3"></div>
+                    </div>
+    
+                    <div class="view">
+                        <img src="{{ image.image_post.url }}" class="card-img-top" height="50%" width="50%" alt="image">
+                    </div>
+                    <p style="font-family: Arial, Helvetica, sans-serif;"> {{image.total_likes}} Like{{image.total_likes|pluralize}}</p>
+    
+                    <div>
+                        <p>{{image.image_caption}} </p>
+                        <p>{{image.date_posted|timesince}} ago </p>
+                       
+                        <div class="card-footer ">
+                                <form action="{% url 'home' %}" method="POST">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                                {{ form|crispy }}
+                                                <input type="hidden" value="{{image.pk}}" name="image_id">
+                                        </div>
+                                        <div class="col-md-4">
+                                                <button class="btn btn-outline-black" type="submit"> Comment</button>
+                                        </div>
+    
+                                    </div>
+                                    
+    
+                                </form>
+    
+    
+                    </div>
+                    </div>
+    
+                </div>
+    
+            </div>
+            <div class="col-md-2"></div>
+          
+            <div class="col-md-1"></div>
+        </div>
