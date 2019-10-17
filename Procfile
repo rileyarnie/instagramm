@@ -1,0 +1,1 @@
+web: gunicorn django_instagram.wsgi --log-file -

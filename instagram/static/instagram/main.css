@@ -71,3 +71,52 @@ small#hint_id_username {
 .card {
     margin-top: 15px;
 }
+
+img.rounded-circle.z-depth-0 {
+    height: 40px;
+}
+p.mb-0.imgcred {
+    padding-left: 6px;
+    padding-top: 6px;
+}
+
+img.icons {
+    padding-left: 0px;
+    padding-right: 2px;
+}
+
+textarea#id_image_caption {
+    height: 37px;
+    width: inherit;
+}
+
+span.asteriskField {
+    color: darkred;
+    padding-left: 3px;
+}
+
+input.comment-form {
+    width: 407px;
+}
+
+button.btn.btn-sm.btn-outline-info.waves-effect.waves-light {
+    width: 20%;
+    inline-size: auto;
+    height: 32px;
+}
+
+label.col-form-label.requiredField {
+    display: none;
+}
+textarea.form-control {
+    height: 35px;
+}
+
+primary.waves-effect.waves-light {
+    height: 1px;
+    width: 9px;
+}
+
+
+
+/* PROFILE PAGE */

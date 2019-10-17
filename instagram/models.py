@@ -25,6 +25,11 @@ class Profile(models.Model):
             img.thumbnail(output_size)
             img.save(self.pic.path)
 
+    @classmethod
+    def search_by_username(cls,search_term):
+        profiles = cls.objects.filter(user__username__icontains=search_term)
+        return profiles
+
 class Image(models.Model):
     image_post = models.ImageField( upload_to='posts')
     image_caption = models.TextField()
@@ -35,17 +40,22 @@ class Image(models.Model):
     def __str__(self):
         return self.image_caption
 
+
     def save(self, *args, **kwargs):
         super(Image, self).save(*args, **kwargs)
         img = PIL.Image.open(self.image_post.path)
 
-        # if img.height > 300 or img.width >300:
-        #     output_size = (300,300)
-        #     img(output_size)
-        #     img.save(self.image_post.path,format='JPEG')
 
     def total_likes(self):
         return self.likes.count()
 
     def get_absolute_url(self):
         return reverse('home')
+
+
+
+class Comment(models.Model):
+    content = models.TextField()
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    image = models.ForeignKey(Image, on_delete=models.CASCADE)
+    pub_date = models.DateTimeField(auto_now_add=True)
