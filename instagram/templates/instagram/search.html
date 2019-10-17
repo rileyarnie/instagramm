@@ -1,0 +1,26 @@
+{% extends 'instagram/base.html' %}
+{% block content %}
+    <div class="row">
+        {%if searched_profiles %}
+        <h2>Found {{ searched_profiles|length }} user with the username {{message}}</h2>
+        {% else %}
+        <h2> Found 0 Users for the search term {{message}}</h2>
+        {% endif %}
+    </div>
+
+    <div class="row">
+        {% if searched_profiles %}
+        {% for profile in searched_profiles %}
+        <div class="media">
+            <img class="rounded-circle account-img" src="{{ user.profile.pic.url }}">
+            <div class="media-body">
+                <h2 class="account-heading">{{ user.username }}</h2>
+                <p class="text-secondary">{{ user.email }}</p>
+                
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+    </div>
+{% endblock %}
