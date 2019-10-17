@@ -41,8 +41,20 @@
                         <div class="container-full">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <img class="icons" src="https://img.icons8.com/ios/50/000000/like.png" width="30px"
-                                        height="30px">
+                                    <!-- <form action="{% url 'like_image' %}" method="POST">
+                                        {% csrf_token%}
+                                            <img class="icons" type="submit" name= 'image_id' value = "{{image.id}}" src="https://img.icons8.com/ios/50/000000/like.png" width="30px"
+                                            height="30px">{{image.total_likes}} Like{{image.total_likes|pluralize}}
+                                    </form> -->
+                                    <form action="{% url 'like_image' %}" method="POST">
+                                            {% csrf_token%}
+                                            {% if is_liked%}
+                                            <button class="btn btn-primary btn-sm" type="submit" name="image_id" value="{{ image.id }}"> like </button>
+                                            {% else %}
+                                            <button class="btn btn-primary" type="submit" name="image_id" value="{{ image.id }}">  </button>
+                                            {% endif %}
+                                        </form>
+
                                     <img class="icons" src="https://img.icons8.com/ios/50/000000/topic.png" width="30px"
                                         height="30px">
                             
