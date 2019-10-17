@@ -10,6 +10,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic.edit import FormMixin
 from .forms import CommentForm
 from django.http import HttpResponseRedirect
+from django.core.mail import send_mail
+from django.conf import settings
+from decouple import config
 # Create your views here.
 
 
@@ -22,6 +25,14 @@ def register(request):
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             form.save()
+            subject = 'WELCOME!!!'
+            message = 'Welcome to Instagram and thank you for signing up. Enjoy!'
+            from_email = settings.EMAIL_HOST_USER
+            to_list = [form.cleaned_data.get('email')]
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Account created!! You can now login!')
+            send_mail( subject, message, from_email, to_list, fail_silently=True)
+
             username=form.cleaned_data.get('username')
             messages.success(request, f'Account created! Log In Now!')
             return redirect('login')
