@@ -1,13 +1,18 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from django.views.generic import ListView, CreateView, DeleteView, DetailView
+from django.views.generic import ListView, CreateView, DeleteView, DetailView, View
 from .models import Image, Profile
 from django.contrib.auth.models import User
 from .forms import UserRegisterForm, ProfileUpdateForm, UserUpdateForm
 from django.contrib.auth.decorators import login_required
-
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic.edit import FormMixin
+from .forms import CommentForm
+from django.http import HttpResponseRedirect
 # Create your views here.
+
+
 
 def home(request):
     return render(request, 'instagram/home.html')
@@ -25,10 +30,12 @@ def register(request):
         form = UserRegisterForm()
     return render(request, 'users/register.html', {'form': form})
 
-class ImageListView(ListView):
+class ImageListView( LoginRequiredMixin,  ListView):
     model = Image 
     context_object_name = 'images'
     ordering = ['-date_posted']
+
+
 
 def profile(request):
     if request.method == 'POST':
@@ -48,6 +55,7 @@ def profile(request):
         'p_form': p_form
     }
     return render(request, 'users/profile.html', context)
+
 
 
 # class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -87,6 +95,32 @@ def profile(request):
     return render(request, 'users/profile.html', context)
 
 
+# @login_required
+# def UserProfile(request):
+    
+#     images = Image.objects.all()
+    
+    
+#     return render(request, 'user/user_profile.html', context)
+
+@login_required
+def search_results(request):
+    if 'user' in request.GET and request.GET['user']:
+        search_term = request.GET.get("user")
+        searched_profiles = Profile.search_by_username(search_term)
+        message= f"{search_term}"
+        context = {
+            'message': message,
+            'searched_profiles': searched_profiles
+        }
+        return render(request, "instagram/search.html", context)
+    else:
+        message = 'No users with that name found. Try Again!'
+        return render(request, 'instagram/search.html',{"message":message})
+
+    
+
+
 class ImageCreateView(LoginRequiredMixin, CreateView):
     model = Image
     fields = ['image_post', 'image_caption'] 
@@ -94,3 +128,65 @@ class ImageCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.image_by = self.request.user
         return super().form_valid(form)
+
+
+
+class ImageDetailView(DetailView, FormMixin):
+    model = Image
+    form_class = CommentForm
+    def form_valid(self, form):
+        return super().form_valid(form)
+    
+
+class ImageDeleteView(LoginRequiredMixin,UserPassesTestMixin, DeleteView):
+    model = Image
+    success_url = '/'
+
+    def test_func(self):
+        image = self.get_object()
+        if self.request.user == image.image_by:
+            return True
+        return False 
+
+
+def homepage(request):
+    images = Image.objects.all()
+    is_liked = False
+    # if images.likes.filter(id=request.user.id).exists():
+    #     is_liked = False
+
+    current_user = request.user
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST, auto_id=False)
+        img_id = request.POST['image_id']
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.author = current_user
+            # image = Image.objects.get(pk=id)
+            image = Image.objects.get(pk=img_id)
+            comment.image = image
+            comment.save()
+        return redirect(f'/#{img_id}',)
+    else:
+        form = CommentForm(auto_id=False)
+
+        context={
+        'form': form,
+        'images': images,
+        'is_liked': is_liked,
+    }
+    return render(request, 'instagram/homepage.html', context)
+
+
+def like_image(request):
+    image = get_object_or_404(Image, id = request.POST.get('image_id'))
+    is_liked = False
+    if image.likes.filter(id=request.user.id).exists():
+        image.likes.remove(request.user)
+        is_liked = False
+    else:
+        image.likes.add(request.user)
+        is_liked =True
+
+    return HttpResponseRedirect(image.get_absolute_url())
