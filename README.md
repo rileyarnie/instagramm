@@ -8,13 +8,6 @@ By: Arnold Kibira
 This is a web-app that mimicks the instagram web app and allows users to see images displayed and can click on the image to see more details like the comments.
 
 
-As of this being published, there are only 3 categories a user can search by: 
-- Heroes
-- Food
-- Cars
-
-There are plans to populate the database more.
-
 ## User Story
 - A user can create an account, login and use the app
 - A user recieves a confirmation email upon registration
