@@ -21,7 +21,7 @@ class Profile(models.Model):
         img = PIL.Image.open(self.pic.path)
 
         if img.height > 300 or img.width >300:
-            output_size = (300,300)
+            output_size = (152,152)
             img.thumbnail(output_size)
             img.save(self.pic.path)
 
@@ -51,6 +51,11 @@ class Image(models.Model):
 
     def get_absolute_url(self):
         return reverse('home')
+
+    @classmethod
+    def filterby_id(cls, image_by):
+        images = cls.Objects.filter(image_by)
+    
 
 
 

@@ -214,3 +214,11 @@ class UserImageListView(LoginRequiredMixin, ListView):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         return Image.objects.filter(image_by=user).order_by('-date_posted')
        
+
+
+def testProfile(request):
+    
+    images = Image.objects.all().order_by('-date_posted')
+    
+
+    return render(request, 'instagram/testprofile.html', {"images":images})

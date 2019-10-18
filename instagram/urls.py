@@ -13,7 +13,8 @@ urlpatterns = [
     path('post/<int:pk>/', ImageDetailView.as_view(), name='post-detail'),
     path('',views.homepage , name='home'),
     path('like/', views.like_image, name='like_image'),
-    path('search/', views.search_results, name='search_results')
+    path('search/', views.search_results, name='search_results'),
+    path('testprofile/', views.testProfile,name='test_profile')
     
 
 
